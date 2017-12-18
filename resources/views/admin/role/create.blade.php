@@ -2,7 +2,9 @@
 
 @section('content')
 <h2>创建角色</h2>
-<form class="form-horizontal" method="POST" action="{{url('role')}}">
+@include('layouts.errors')
+<form class="form-horizontal" method="POST" action="{{action('RoleController@store')}}">
+{{ csrf_field() }}
   <div class="form-group">
     <label for="name" class="col-sm-2 control-label">角色名称</label>
     <div class="col-sm-10">

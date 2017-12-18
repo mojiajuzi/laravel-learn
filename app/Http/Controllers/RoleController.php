@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Role;
+use Redirect;
 
 class RoleController extends Controller
 {
@@ -36,8 +37,18 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $params = $request->all();
-        dd($params);
+        $rules = Role::getValidatorCreateRules();
+        $this->validate($request, $rules);
+        $role = new Role;
+        $role->name = $request->get('name');
+        $role->display_name = $request->get('display_name');
+        $role->description = $request->get('description');
+
+        if (!$role->save()){
+            $this->notification['message'] = "数据创建失败";
+            $this->notification['alert-type'] = "error";
+        }
+        return Redirect::to('roles/create')->with($this->notification);
     }
 
     /**

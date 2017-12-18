@@ -12,6 +12,7 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
+   .sass('node_modules/toastr/toastr.scss', 'public/css')
    .sass('resources/assets/sass/app.scss', 'public/css');
 
 mix.browserSync('localhost:8000');

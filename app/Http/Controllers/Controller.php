@@ -10,4 +10,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    // 消息提示
+    protected $notification = array(
+        'message' => '成功', 
+        'alert-type' => 'success'
+    );
 }

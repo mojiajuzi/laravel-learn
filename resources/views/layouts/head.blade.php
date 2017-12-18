@@ -11,6 +11,7 @@
     <title>Dashboard Template for Bootstrap</title>
     <!-- Bootstrap core CSS -->
     <link href="/css/app.css" rel="stylesheet">
+     <link href="/css/toastr.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/css/dashboard.css" rel="stylesheet">
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
