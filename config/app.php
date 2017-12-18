@@ -177,6 +177,15 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //debug
+        Barryvdh\Debugbar\ServiceProvider::class,
+
+        //permission
+        Zizaco\Entrust\EntrustServiceProvider::class,
+
+        //Excel
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ],
 
     /*
@@ -225,7 +234,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];
