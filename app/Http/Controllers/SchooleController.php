@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Schoole;
 use Illuminate\Http\Request;
+use Webpatser\Uuid\Uuid;
+use Redirect;
 
 class SchooleController extends Controller
 {
@@ -39,7 +41,7 @@ class SchooleController extends Controller
         $rules = Schoole::getValidatorCreateRules();
         $this->validate($request, $rules);
         $params = $request->all();
-        $params['schoole_uuid'] = $params;
+        $params['schoole_uuid'] = Uuid::generate()->string;
         if(Schoole::create($params)){
             $this->setAlertMessage('数据写入失败');
             $this->setAlertType("error");

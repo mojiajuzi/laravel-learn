@@ -13,7 +13,7 @@ class Schoole extends Model
             'schoole_name' => 'required|string|unique:schooles,schoole_name',
             'schoole_simple_name' => 'required|string',
             'schoole_code' => 'required|string|unique:schooles,schoole_code',
-            'schoole_address' => 'required|string|min:10|max:255',
+            'schoole_address' => 'sometimes|required|string|min:1|max:255|unique:schooles,schoole_address',
         ];
     }
 }
