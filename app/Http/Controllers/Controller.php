@@ -16,4 +16,15 @@ class Controller extends BaseController
         'message' => '成功', 
         'alert-type' => 'success'
     );
+
+    //用来存储数据
+    protected $data = [];
+
+    protected function setAlertMessage(String $message){
+        $this->notification['message'] = $message;
+    }
+
+    protected function setAlertType(String $alertType){
+        $this->notification['alert-type'] = $alertType;
+    }
 }
