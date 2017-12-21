@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Schoole extends Model
 {
-    protected $guarded = []; 
+    protected $guarded = [];
+
     public static function getValidatorCreateRules()
     {
         return [

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h2>创建角色</h2>
+<h2>创建学校</h2>
 @include('layouts.errors')
 <form class="form-horizontal" method="POST" action="{{action('SchooleController@store')}}">
 {{ csrf_field() }}

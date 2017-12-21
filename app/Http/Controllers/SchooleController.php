@@ -68,7 +68,8 @@ class SchooleController extends Controller
      */
     public function edit(Schoole $schoole)
     {
-        //
+        $this->data['schoole'] = $schoole;
+        return view('admin.schoole.edit', $this->data);
     }
 
     /**
@@ -80,7 +81,7 @@ class SchooleController extends Controller
      */
     public function update(Request $request, Schoole $schoole)
     {
-        //
+        dd($schoole);
     }
 
     /**

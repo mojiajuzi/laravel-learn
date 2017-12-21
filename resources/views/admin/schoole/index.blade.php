@@ -14,7 +14,7 @@
         <td>{{$schoole->schoole_en_name}}</td>
         <td>{{$schoole->schoole_code}}</td>
         <td>{{$schoole->schoole_address}}</td>
-        <td><button class="btn">更新</button></td>
+        <td><button class="btn"><a href="{{ URL::to('schooles/'. $schoole->id. '/edit') }}">更新</a></button></td>
         <td><button class="btn">删除</button></td>
     </tr>
     @endforeach
