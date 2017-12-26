@@ -6,18 +6,29 @@ use App\Schoole;
 use Illuminate\Http\Request;
 use Webpatser\Uuid\Uuid;
 use Redirect;
+use DB;
 
 class SchooleController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->data['schooles'] = Schoole::paginate(15);
-        return view('admin.schoole.index', $this->data);
+        $user = $request->user();
+        if($user->schooles->isEmpty()){
+            $this->setAlertMessage('尚未创建学校,先创建');
+            $this->setAlertType("info");
+            return Redirect::to('schooles/create')->with($this->notification);
+        }
+        $url = "schooles/".$user->schooles[0]->id;
+        return  Redirect::to($url);
+
     }
 
     /**
@@ -42,11 +53,19 @@ class SchooleController extends Controller
         $this->validate($request, $rules);
         $params = $request->all();
         $params['schoole_uuid'] = Uuid::generate()->string;
-        if(Schoole::create($params)){
+        $user = $request->user();
+        try{
+            DB::transaction(function()use($params,$user){
+                $schoole= Schoole::create($params);
+                $user->schooles()->attach($params['schoole_uuid'], ['user_uuid' => $user->user_uuid]);
+                $url = "schooles/".$schoole->id;
+                return  Redirect::to($url);
+            });
+        }catch(\Exception $e){
             $this->setAlertMessage('数据写入失败');
             $this->setAlertType("error");
+            return Redirect::to('schooles/create')->with($this->notification)->with($params);
         }
-        return Redirect::to('schooles/create')->with($this->notification);
     }
 
     /**
@@ -57,7 +76,7 @@ class SchooleController extends Controller
      */
     public function show(Schoole $schoole)
     {
-        //
+        dd($schoole);
     }
 
     /**
@@ -81,7 +100,14 @@ class SchooleController extends Controller
      */
     public function update(Request $request, Schoole $schoole)
     {
-        dd($schoole);
+        $rules = Schoole::getUpdateRules($schoole->id);
+        $this->validate($request, $rules);
+        $result = $schoole->update($request->all());
+        if(-1 == $result){
+            $this->setAlertMessage('学校信息更新失败');
+            $this->setAlertType('error');
+        }
+        return Redirect::to('schooles')->with($this->notification);
     }
 
     /**

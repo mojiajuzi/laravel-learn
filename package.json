@@ -21,6 +21,8 @@
     "vue": "^2.5.7"
   },
   "dependencies": {
-    "toastr": "^2.1.4"
+    "chart.js": "^2.7.1",
+    "toastr": "^2.1.4",
+    "vue-chartjs": "^3.0.2"
   }
 }

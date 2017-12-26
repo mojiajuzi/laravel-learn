@@ -3,7 +3,7 @@
 <h2>学校列表</h2>
 <table class="table table-hover">
     <thead>
-    <tr><th>ID</th><th>名称</th><th>简称</th><th>英文名</th><th>学校代码</th><th>地址</th></tr>
+    <tr><th>ID</th><th>名称</th><th>简称</th><th>英文名</th><th>学校代码</th><th>地址</th><th>操作</th></tr>
     </thead>
     <tbody>
     @foreach ($schooles as $schoole)
@@ -14,8 +14,10 @@
         <td>{{$schoole->schoole_en_name}}</td>
         <td>{{$schoole->schoole_code}}</td>
         <td>{{$schoole->schoole_address}}</td>
-        <td><button class="btn"><a href="{{ URL::to('schooles/'. $schoole->id. '/edit') }}">更新</a></button></td>
-        <td><button class="btn">删除</button></td>
+        <td>
+        <button class="btn"><a href="{{ URL::to('schooles/'. $schoole->id. '/edit') }}">更新</a></button>
+        <button class="btn">删除</button>
+        </td>
     </tr>
     @endforeach
     </tbody>

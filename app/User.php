@@ -10,14 +10,13 @@ class User extends Authenticatable
 {
     use Notifiable;
     use EntrustUserTrait;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'mobile', 'password','user_uuid'
     ];
 
     /**
@@ -28,4 +27,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function schooles(){
+        return $this->belongsToMany('App\Schoole', 'schoole_users','user_uuid','schoole_uuid');
+    }
 }

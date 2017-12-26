@@ -1,8 +1,10 @@
 <ul class="nav nav-sidebar">
 <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-<li><a href="#">Reports</a></li>
-<li><a href="#">Analytics</a></li>
-<li><a href="#">Export</a></li>
+<ul>
+<li><a href="/schooles">学校信息</a></li>
+</ul>
+<li><a href="#">年级创建</a></li>
+<li><a href="#">班级创建</a></li>
 </ul>
 <ul class="nav nav-sidebar">
 <li><a href="">Nav item</a></li>
