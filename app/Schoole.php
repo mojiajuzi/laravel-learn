@@ -33,4 +33,8 @@ class Schoole extends Model
     public function users(){
         return $this->belongsToMany('App\User', 'schoole_users', 'schoole_uuid', 'user_uuid');
     }
+
+    public function departments(){
+        return $this->hasMany('App\Department', 'schoole_uuid', 'schoole_uuid');
+    }
 }

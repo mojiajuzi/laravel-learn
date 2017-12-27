@@ -29,6 +29,6 @@ class User extends Authenticatable
     ];
 
     public function schooles(){
-        return $this->belongsToMany('App\Schoole', 'schoole_users','user_uuid','schoole_uuid');
+        return $this->belongsToMany('App\Schoole', 'schoole_users','user_uuid','schoole_uuid', 'user_uuid', 'schoole_uuid');
     }
 }

@@ -22,6 +22,9 @@
                     <a href="#">Profile</a>
                 </li>
                 <li>
+                    <a href="{{action('Auth\LoginController@getLogout')}}">退出</a>
+                </li>
+                <li>
                     <a href="#">Help</a>
                 </li>
             </ul>

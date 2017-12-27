@@ -76,7 +76,8 @@ class SchooleController extends Controller
      */
     public function show(Schoole $schoole)
     {
-        dd($schoole);
+       $this->data['schoole'] = $schoole;
+       return view('admin.schoole.show', $this->data);
     }
 
     /**
