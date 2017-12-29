@@ -20,6 +20,7 @@
               </div>
               <div class="col-md-6">
                   <h3>添加部门</h3>
+                  @include('admin.department.create', ['departmentAll' => $departmentList])
               </div>
           </div>
 

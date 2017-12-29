@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Department;
 use Illuminate\Http\Request;
+use Redirect;
 
 class DepartmentController extends Controller
 {
@@ -41,7 +42,19 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $schooleUuid = $this->getSchooleUuid();
+        $rules = Department::getCreateRules( $schooleUuid);
+        $this->validate($request, $rules);
+        $params = $request->all();
+        $params['schoole_uuid'] =  $schooleUuid;
+        try{
+            Department::create($params);
+            return  Redirect::to('departments')->with($this->notification);
+        }catch(\Exception $e){
+            $this->setAlertMessage('数据写入失败');
+            $this->setAlertType("error");
+            return Redirect::to('departments')->with($this->notification);
+        }
     }
 
     /**
