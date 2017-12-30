@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="col-md-7">
-        <h4>学校部门列表</h4>
+        <h4>{{$department->department_name}} 职位列表</h4>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -9,28 +9,31 @@
                         #
                     </th>
                     <th>
-                        部门全称
+                        职位名称
                     </th>
                     <th>
-                       部门简称
+                       任职
                     </th>
                     <th>
-                       操作
+                      部门负责人
+                    </th>
+                    <th>
+                        操作
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach( $departmentList as $detail)
+                @foreach( $department->positions as $position)
                 <tr>
-                    <td>{{$detail->id}}</td>
-                    <td>{{$detail->department_full_name}}</td>
-                    <td>{{$detail->department_name}}</td>
+                    <td>{{$position->id}}</td>
+                    <td>{{$position->position_name}}</td>
+                    <td>{{$teacherAll[$position->position_manager_uuid] or "未分配"}}</td>
+                    <td>{{$position->position_master_text}}</td>
                     <td>
                          <div class="btn-group">
-                            <button type="button" class="btn btn-warning  btn-xs department_edit" data-edit_url="{{action('DepartmentController@update', ['id' => $detail->id])}}/edit">
+                            <button type="button" class="btn btn-warning  btn-xs department_edit" data-edit_url="{{action('DepartmentController@update', ['id' => $position->id])}}/edit">
                                 修改
                             </button>
-                                <a href="{{action('PositionController@index')}}?department_id={{$detail->id}}" class="btn-success">职位列表</a>
                          </div>
                     </td>
                 </tr>
@@ -39,9 +42,9 @@
         </table>
  </div>
  <div class="col-md-4 col-md-offset-1">
-    <h4>部门创建</h4>
+    <h4>职位创建</h4>
     @include('layouts.errors')
-    @include('admin.department.create', ['departmentAll' => $departmentList])    
+    @include('admin.position.create', ['teacherAll' => $teacherAll, 'positionList' => $department->positions])    
  </div>
 
  {{--  部门修改模态框  --}}

@@ -17,10 +17,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('roles', 'RoleController');
+
+
+//学校基本信息设置
 Route::resource('schooles', 'SchooleController');
 Route::resource('departments', 'DepartmentController');
+Route::resource('positions', 'PositionController');
+
+
 Auth::routes();
-Route::get('logout', 'Auth\LoginController@getLogout');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('logout', 'Auth\LoginController@getLogout');
+Route::resource('roles', 'RoleController');

@@ -13,6 +13,10 @@ class Department extends Model
         return $this->hasMany('App\Department', 'department_parent_id', 'id');
     }
 
+    public function positions(){
+        return $this->hasMany('App\Position');
+    }
+
     public static function getCreateRules(String $schooleUuid){
         return [
             'department_parent_id' => 'required|integer|min:0',
