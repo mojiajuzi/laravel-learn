@@ -29,13 +29,15 @@ class Department extends Model
         return [
             'department_parent_id' => 'required|integer|min:0',
             'department_name' => [
-                'required|string',
-                 Rule::unique('departments')->ignore('id', $departmentId)->where(function($query)use($schooleUuid){
+                'required',
+                'string',
+                 Rule::unique('departments')->ignore($departmentId, 'id')->where(function($query)use($schooleUuid){
                      $query->where("schoole_uuid", $schooleUuid);
             })],
             'department_full_name' => [
-                'required|string', 
-                Rule::unique('departments')->ignore('id', $departmentId)->where(function($query)use($schooleUuid){
+                'required',
+                'string',
+                Rule::unique('departments')->ignore($departmentId, 'id')->where(function($query)use($schooleUuid){
                     $query->where("schoole_uuid", $schooleUuid);
             })]
         ];

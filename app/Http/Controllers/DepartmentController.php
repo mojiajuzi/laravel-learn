@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Department;
 use Illuminate\Http\Request;
 use Redirect;
+use Validator;
 
 class DepartmentController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +21,7 @@ class DepartmentController extends Controller
     {
         $schoole_uuid = $request->user()->schooles[0]->schoole_uuid;
         $baseWhere = ['schoole_uuid' => $schoole_uuid];
-        $this->data['parentDepartment'] = Department::where('department_parent_id', 0)->where($baseWhere)->get();
-        $this->data['departmentList'] = Department::select('id', 'department_parent_id', 'department_name')
+        $this->data['departmentList'] = Department::select('id', 'department_name', 'department_full_name')
             ->where($baseWhere)
             ->get();
         return view('admin.department.index', $this->data);
@@ -60,10 +63,10 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\department  $department
+     * @param  \App\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function show(department $department)
+    public function show(Department $department)
     {
         //
     }
@@ -74,9 +77,13 @@ class DepartmentController extends Controller
      * @param  \App\department  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit(department $department)
+    public function edit(Department $department)
     {
-        //
+        $this->data['departmentList'] = Department::select('id', 'department_name')
+            ->where('schoole_uuid', $this->getSchooleUuid())
+            ->get();
+        $this->data['department'] = $department;
+        return view('admin.department.edit', $this->data);
     }
 
     /**
@@ -86,9 +93,19 @@ class DepartmentController extends Controller
      * @param  \App\department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, department $department)
+    public function update(Request $request, Department $department)
     {
-        //
+        $schooleUuid = $this->getSchooleUuid();
+        $rules = Department::getUpdateRules($schooleUuid, $department->id);
+        $v = Validator::make($request->all(), $rules);
+        if($v->fails())
+            return response()->json(['status' => false, 'msg' => $v->errors()->first()]);
+            
+        $result = $department->update($request->all());
+        if(!$result){
+            return response()->json(['status' => false, 'msg' => '部门更新失败']);
+        }
+        return response()->json(['status' => true, 'msg' => '部门更新成功']);
     }
 
     /**
