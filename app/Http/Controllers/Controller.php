@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Auth;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -26,5 +27,17 @@ class Controller extends BaseController
 
     protected function setAlertType(String $alertType){
         $this->notification['alert-type'] = $alertType;
+    }
+
+    /**
+     * 获取认证用户的学校唯一标识
+     */
+    protected function getSchooleUuid(){
+        $user = Auth::user();
+        $schooleUUid = '';
+        if(!$user->schooles->isEmpty()){
+            $schooleUUid = $user->schooles[0]->schoole_uuid;
+        }
+        return $schooleUUid;
     }
 }
