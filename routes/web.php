@@ -24,7 +24,15 @@ Route::resource('schooles', 'SchooleController');
 Route::resource('departments', 'DepartmentController');
 Route::resource('positions', 'PositionController');
 Route::resource("grades", 'GradeController');
+Route::resource("organization", 'OrganizationController');
 
+//教师基本操作
+Route::group(['prefix' => 'schoole'], function(){
+    Route::get("apply", 'SchooleTeacherController@apply')->name('schoole_apply');
+    Route::post("apply", 'SchooleTeacherController@applySubmit');
+    Route::get('apply_list', 'SchooleTeacherController@applyList');
+    Route::PUT("apply", 'SchooleTeacherController@applyReview');
+});
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

@@ -1,0 +1,39 @@
+@extends('layouts.app')
+@section('content')
+<div class="col-md-7">
+        <h4>学校部门列表</h4>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        申请人
+                    </th>
+                    <th>
+                        电话
+                    </th>
+                    <th>
+                       申请状态
+                    </th>
+                    <th>
+                            申请时间
+                        </th>
+                    <th>
+                       操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($applyList as $apply)
+                <tr>
+                    <td>{{$apply->user->name}}</td>
+                    <td>{{$apply->user->mobile}}</td>
+                    <td>{{$apply->status}}</td>
+                    <td>{{$apply->created_at}}</td>
+                    <td>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+ </div>
+@endsection
