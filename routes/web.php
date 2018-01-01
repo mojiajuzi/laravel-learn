@@ -23,6 +23,7 @@ Auth::routes();
 Route::resource('schooles', 'SchooleController');
 Route::resource('departments', 'DepartmentController');
 Route::resource('positions', 'PositionController');
+Route::resource("grades", 'GradeController');
 
 
 Auth::routes();

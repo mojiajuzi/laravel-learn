@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Department;
+use App\Grade;
 use Illuminate\Http\Request;
-use Redirect;
 use Validator;
+use Redirect;
 
-class DepartmentController extends Controller
+class GradeController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware("auth");
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $schoole_uuid = $this->getSchooleUuid();
         $baseWhere = ['schoole_uuid' => $schoole_uuid];
-        $this->data['departmentList'] = Department::select('id', 'department_name', 'department_full_name')
+        $this->data['gradeList'] = Grade::select('id', 'grade_name', 'grade_full_name')
             ->where($baseWhere)
             ->get();
-        return view('admin.department.index', $this->data);
+        return view('admin.grade.index', $this->data);
     }
 
     /**
@@ -46,27 +46,27 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         $schooleUuid = $this->getSchooleUuid();
-        $rules = Department::getCreateRules( $schooleUuid);
+        $rules = Grade::getCreateRules( $schooleUuid);
         $this->validate($request, $rules);
         $params = $request->all();
         $params['schoole_uuid'] =  $schooleUuid;
         try{
-            Department::create($params);
-            return  Redirect::to('departments')->with($this->notification);
+            Grade::create($params);
+            return  Redirect::to('grades')->with($this->notification);
         }catch(\Exception $e){
             $this->setAlertMessage('数据写入失败');
             $this->setAlertType("error");
-            return Redirect::to('departments')->with($this->notification);
+            return Redirect::to('grades')->with($this->notification);
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Department  $department
+     * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function show(Department $department)
+    public function show(Grade $grade)
     {
         //
     }
@@ -74,47 +74,44 @@ class DepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\department  $department
+     * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function edit(Department $department)
+    public function edit(Grade $grade)
     {
-        $this->data['departmentList'] = Department::select('id', 'department_name')
-            ->where('schoole_uuid', $this->getSchooleUuid())
-            ->get();
-        $this->data['department'] = $department;
-        return view('admin.department.edit', $this->data);
+        $this->data['grade'] = $grade;
+        return view('admin.grade.edit', $this->data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\department  $department
+     * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, Grade $grade)
     {
         $schooleUuid = $this->getSchooleUuid();
-        $rules = Department::getUpdateRules($schooleUuid, $department->id);
+        $rules = Grade::getUpdateRules($schooleUuid, $grade->id);
         $v = Validator::make($request->all(), $rules);
         if($v->fails())
             return response()->json(['status' => false, 'msg' => $v->errors()->first()]);
             
-        $result = $department->update($request->all());
+        $result = $grade->update($request->all());
         if(!$result){
-            return response()->json(['status' => false, 'msg' => '部门更新失败']);
+            return response()->json(['status' => false, 'msg' => '年级更新失败']);
         }
-        return response()->json(['status' => true, 'msg' => '部门更新成功']);
+        return response()->json(['status' => true, 'msg' => '年级更新成功']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\department  $department
+     * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function destroy(department $department)
+    public function destroy(Grade $grade)
     {
         //
     }
