@@ -18,6 +18,10 @@ class Schoole extends Model
         ];
     }
 
+    public function teachers(){
+        return $this->hasManyThrough('App\TeacherDetail', 'App\SchooleTeacher', 'teacher_uuid', 'teacher_uuid', 'schoole_uuid');
+    }
+
     /**
      * 获取更新学校信息规则
      * $id 学校主键
