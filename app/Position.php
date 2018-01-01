@@ -3,20 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 class Position extends Model
 {
     protected $table = 'positions';
 
     protected $guarded = [];
-
-    public function getDepartmentMasterAttribute($value){
-        if($value){
-            $this->attributes['department_master_text'] = "是";
-        }else{
-            $this->attributes['department_master_text'] = "否";            
-        }
-    }
 
     public function child(){
         return $this->hasMany('App\Position', 'position_parent_id', 'id');
@@ -32,13 +25,13 @@ class Position extends Model
 
     public static function getCreateRules(String $schooleUUID, Int $departmentID){
         return [
-            'position_parent_id' => [
-                'required',
-                'integer',
-                Rule::exists('positions', 'id')->where(function($query)use($departmentID){
-                    $query->where('department_id', $departmentID);
-                })
-            ],
+            // 'position_parent_id' => [
+            //     'required',
+            //     'integer',
+            //     Rule::exists('positions', 'id')->where(function($query)use($departmentID){
+            //         $query->where('department_id', $departmentID);
+            //     })
+            // ],
             'position_name' => ['required','string',  Rule::unique('positions')->where(function($query)use($departmentID){
                 $query->where("department_id", $departmentID);
             })],
@@ -51,13 +44,13 @@ class Position extends Model
 
     public static function getUpdateRules(String $schooleUUID, Int  $departmentID, Int $positionID){
         return [
-            'position_parent_id' => [
-                'required',
-                'integer',
-                Rule::exists('positions', 'id')->where(function($query)use($departmentID){
-                    $query->where('department_id', $departmentID);
-                })
-            ],
+            // 'position_parent_id' => [
+            //     'required',
+            //     'integer',
+            //     Rule::exists('positions', 'id')->where(function($query)use($departmentID){
+            //         $query->where('department_id', $departmentID);
+            //     })
+            // ],
             'position_name' => [
                 'required',
                 'string',

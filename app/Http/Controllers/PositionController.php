@@ -7,9 +7,13 @@ use App\TeacherDetail;
 use App\Department;
 use Illuminate\Http\Request;
 use Redirect;
+use Validator;
 
 class PositionController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +54,16 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $schooleUUID = $this->getSchooleUuid();
+       //TODO: 对部门id,进行校验
+       $departmentID = $request->get("department_id");
+       $rules = Position::getCreateRules($schooleUUID, $departmentID);
+       $this->validate($request, $rules);
+       if(!Position::create($request->all())){
+            $this->setAlertMessage('职位创建失败');
+            $this->setAlertType('error');
+       }
+       return Redirect::to("/positions")->with($this->notification);
     }
 
     /**
@@ -72,7 +85,8 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        //
+        $this->data['position'] = $position;
+        return view("admin.position.edit", $this->data);
     }
 
     /**
@@ -84,7 +98,19 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        //
+       $schooleUUID = $this->getSchooleUUid();
+       $departmentID = $request->get('department_id');
+       $positionID = $position->id;
+       $rules = Position::getUpdateRules($schooleUUID, $departmentID, $positionID);
+       $v = Validator::make($request->all(), $rules);
+       if($v->fails())
+        return response()->json(['status' => false, 'msg' => $v->errors()->first()]);
+    
+        $result = $position->update($request->all());
+        if(!$result){
+            return response()->json(['status' => false, 'msg' => '部门职位更新失败']);
+        }
+        return response()->json(['status' => true, 'msg' => '部门职位更新成功']);
     }
 
     /**
