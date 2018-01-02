@@ -5,6 +5,7 @@
 <li><a href="/departments">部门信息</a></li>
 <li><a href="/grades">年级信息</a></li>
 <li><a href="/schoole/apply_list">教师申请</a></li>
+<li><a href="/schoole/teachers">教师信息</a></li>
 </ul>
 </ul>
 <ul class="nav nav-sidebar">

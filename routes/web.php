@@ -28,10 +28,14 @@ Route::resource("organization", 'OrganizationController');
 
 //教师基本操作
 Route::group(['prefix' => 'schoole'], function(){
+    //教师申请
     Route::get("apply", 'SchooleTeacherController@apply')->name('schoole_apply');
     Route::post("apply", 'SchooleTeacherController@applySubmit');
     Route::get('apply_list', 'SchooleTeacherController@applyList');
-    Route::PUT("apply", 'SchooleTeacherController@applyReview');
+    Route::post("apply_review", 'SchooleTeacherController@applyReview');
+
+    //教师管理
+    Route::resource('teachers', 'TeacherDetailController');
 });
 
 Auth::routes();

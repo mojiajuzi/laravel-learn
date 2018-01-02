@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Schoole;
 use App\Services\SchooleTeacherService;
 use Redirect;
+use Validator;
 
 class SchooleTeacherController extends Controller
 {
@@ -45,5 +46,21 @@ class SchooleTeacherController extends Controller
         $schooleUUID = $this->getSchooleUUid();
         $this->data['applyList'] = $this->service->list($schooleUUID);
         return view("admin.apply_schoole.index", $this->data);
+    }
+
+    public function applyReview(Request $request){
+       $rules = [
+           'id' => 'required|integer|exists:schoole_teachers',
+           'action' => 'required|in:1,2'
+        ];
+
+        $params = $request->all();
+        $v = Validator::make($params, $rules);
+
+        if ($v->fails())
+            return response()->json(['status' => false, 'msg' => $v->errors()->first()]);
+        
+        $result = $this->service->review($params['id'], $params['action'], $this->getSchooleUuid());
+        return response()->json($result);
     }
 }
