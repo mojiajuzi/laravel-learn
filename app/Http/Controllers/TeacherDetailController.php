@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class TeacherDetailController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +17,9 @@ class TeacherDetailController extends Controller
      */
     public function index()
     {
-        //
+        $schooleUUID = $this->getSchooleUuid();
+        $this->data['teacherList'] = TeacherDetail::paginate($this->pageSize);
+        return review('admin.teacher.index', $this->data);
     }
 
     /**

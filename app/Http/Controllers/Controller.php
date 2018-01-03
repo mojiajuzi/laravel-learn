@@ -30,6 +30,16 @@ class Controller extends BaseController
     }
 
     /**
+     * 将返回的消息，转换成通知
+     */
+    protected function returnDataToNotification(Array $data){
+        if(!$data['status']){
+            $this->notification['alert-type'] = "error";
+        }
+        $this->notification['message'] = $data['msg'];
+    }
+
+    /**
      * 获取认证用户的学校唯一标识
      */
     protected function getSchooleUuid(){

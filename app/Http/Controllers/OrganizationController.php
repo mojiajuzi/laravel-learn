@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Teacher;
+use App\Organization;
 use Illuminate\Http\Request;
 
-class TeacherController extends Controller
+class OrganizationController extends Controller
 {
+    public function __construct(){
+        $this->middleware("auth");
+    }
     /**
      * Display a listing of the resource.
      *
@@ -41,10 +44,10 @@ class TeacherController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Teacher  $teacher
+     * @param  \App\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function show(Teacher $teacher)
+    public function show(Organization $organization)
     {
         //
     }
@@ -52,10 +55,10 @@ class TeacherController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Teacher  $teacher
+     * @param  \App\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function edit(Teacher $teacher)
+    public function edit(Organization $organization)
     {
         //
     }
@@ -64,10 +67,10 @@ class TeacherController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Teacher  $teacher
+     * @param  \App\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(Request $request, Organization $organization)
     {
         //
     }
@@ -75,10 +78,10 @@ class TeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Teacher  $teacher
+     * @param  \App\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Teacher $teacher)
+    public function destroy(Organization $organization)
     {
         //
     }
