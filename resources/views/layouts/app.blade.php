@@ -6,10 +6,10 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-			@include('layouts.menu')
+		  	@include('layouts.menu')
         </div>
-        <div id="app" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			@yield('content')
+        <div id="app" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="border:1px solid #e9e9e9;">
+		  	@yield('content')
         </div>
       </div>
     </div>

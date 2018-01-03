@@ -1,55 +1,59 @@
 @extends('layouts.app')
 @section('content')
-<div class="col-md-6">
+<div class="row">
+    <div class="col-md-12  create_form"  @if(!count($errors)) style="display:none;" @endif>
+            <div class="col-md-6 col-md-offset-2">
+                    @include('layouts.errors')
+                    @include('admin.position.create', ['positionList' => $department->positions, 'department' => $department]) 
+            </div>
+    </div>
+</div>
+<div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-info create-form-show">新建职位</button>
+        </div>
+</div>
+<div class="row">
         <h4>{{$department->department_name}} 职位列表</h4>
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        #
-                    </th>
-                    <th>
-                        名称
-                    </th>
-                    <th>
-                       任职
-                    </th>
-                    <th>
-                      部门领导
-                    </th>
-                    <th>
-                        操作
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach( $department->positions as $position)
-                <tr>
-                    <td>{{$position->id}}</td>
-                    <td>{{$position->position_name}}</td>
-                    <td>{{$teacherAll[$position->position_manager_uuid] or "未分配"}}</td>
-                    <td>{{$position->department_master? "是" : "否"}}</td>
-                    <td>
-                         <div class="btn-group">
-                            <button type="button" class="btn btn-warning  btn-xs department_edit" data-edit_url="{{action('PositionController@update', ['id' => $position->id])}}/edit">
-                                修改
-                            </button>
-                            <button type="button" class="btn btn-warning  btn-xs department_edit" data-edit_url="{{action('PositionController@update', ['id' => $position->id])}}/edit">
-                                职务分配
-                            </button>
-                         </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
- </div>
- <div class="col-md-5 col-md-offset-1">
-    <h4>职位创建</h4>
-    @include('layouts.errors')
-    @include('admin.position.create', ['positionList' => $department->positions, 'department' => $department])    
- </div>
-
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                任职
+                            </th>
+                            <th>
+                                部门领导
+                            </th>
+                            <th>
+                                操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach( $department->positions as $position)
+                        <tr>
+                            <td>{{$position->id}}</td>
+                            <td>{{$position->position_name}}</td>
+                            <td>{{$teacherAll[$position->position_manager_uuid] or "未分配"}}</td>
+                            <td>{{$position->department_master? "是" : "否"}}</td>
+                            <td>
+                                    <a href="#" class="text-danger department_edit" data-edit_url="{{action('PositionController@update', ['id' => $position->id])}}/edit">修改</a>
+                                    <span>|</span>
+                                    <a href="#" class="text-info"  data-edit_url="{{action('PositionController@update', ['id' => $position->id])}}/edit">职位</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+        </div>
+</div>
  {{--  部门修改模态框  --}}
  <div class="modal fade" id="departmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -65,6 +69,7 @@
 @endsection
 
 @section('page_script')
+<script src="/js/toggle.form.js"></script>
 <script>
         {{--  编辑  --}}
         $(".department_edit").on("click", function(e){

@@ -14,7 +14,12 @@
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default">创建</button>
+            <div class="col-sm-5">
+                <button type="button" class="btn btn-default col-sm-5" id="create-form-hide">取消</button>
+            </div>
+            <div class="col-sm-5">
+                <button type="submit" class="btn btn-primary">创建</button>
+            </div>
         </div>
       </div>
     </form>

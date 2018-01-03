@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
-<div class="col-md-7">
+<div class="row">
+<div class="col-md-12">
         <h4>教师申请加入列表</h4>
         <table class="table table-bordered table-hover">
             <thead>
@@ -46,6 +47,7 @@
             </tbody>
         </table>
  </div>
+</div>
 @endsection
 @section('page_script')
 <script>
