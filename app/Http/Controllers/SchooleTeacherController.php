@@ -7,6 +7,8 @@ use App\Schoole;
 use App\Services\SchooleTeacherService;
 use Redirect;
 use Validator;
+use Excel;
+use App\Services\TemplateService;
 
 class SchooleTeacherController extends Controller
 {
@@ -62,5 +64,18 @@ class SchooleTeacherController extends Controller
         
         $result = $this->service->review($params['id'], $params['action'], $this->getSchooleUuid());
         return response()->json($result);
+    }
+
+    public function teacherImport(Request $request){
+        dd("hello");
+    }
+
+
+    public function teacherTemplate(){
+       $this->service->teacherTemplate();
+    }
+
+    public function studentTemplate(){
+        $this->service->studentTemplate();
     }
 }

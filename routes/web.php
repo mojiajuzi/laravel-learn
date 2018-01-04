@@ -33,7 +33,9 @@ Route::group(['prefix' => 'schoole'], function(){
     Route::post("apply", 'SchooleTeacherController@applySubmit');
     Route::get('apply_list', 'SchooleTeacherController@applyList');
     Route::post("apply_review", 'SchooleTeacherController@applyReview');
-
+    Route::get("teacher_template", "SchooleTeacherController@teacherTemplate");
+    Route::get("student_template", "SchooleTeacherController@studentTemplate");
+    Route::post("teacher_import", "SchooleTeacherController@teacherImport");
     //教师管理
     Route::resource('teachers', 'TeacherDetailController');
 });

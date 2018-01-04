@@ -12,6 +12,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $pageSize = 15;
     // 消息提示
     protected $notification = array(
         'message' => '成功', 

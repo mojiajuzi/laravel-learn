@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
 <div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-info  show-file_export">批量导入</button>
+    </div>
+</div>
+<div class="row">
 <div class="col-md-12">
         <h4>教师申请加入列表</h4>
         <table class="table table-bordered table-hover">
@@ -48,6 +53,27 @@
         </table>
  </div>
 </div>
+
+{{--  导入显示框  --}}
+<div class="modal fade" id="templateExportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">文件导入</h4>
+            <div id="content">
+                <div><p　class="text-warning">请先下载<a href="{{action('SchooleTeacherController@teacherTemplate')}}">导入模板</a></p></div>
+                <div>
+                    <form action="{{action('SchooleTeacherController@teacherImport')}}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="teacher" />
+                        <input type="submit" name="sub" value="导入">
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('page_script')
 <script>
@@ -69,5 +95,10 @@
                 toastr.error("请求发送失败");
             });
         });
+
+        {{--  文件导入  --}}
+        $(".show-file_export").on("click", function(e){
+            $("#templateExportModal").modal('show');
+        })
 </script>
 @endsection

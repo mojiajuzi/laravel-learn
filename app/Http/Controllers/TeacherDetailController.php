@@ -19,7 +19,7 @@ class TeacherDetailController extends Controller
     {
         $schooleUUID = $this->getSchooleUuid();
         $this->data['teacherList'] = TeacherDetail::paginate($this->pageSize);
-        return review('admin.teacher.index', $this->data);
+        return view('admin.teacher.index', $this->data);
     }
 
     /**

@@ -5,6 +5,8 @@ use App\Schoole;
 use App\SchooleTeacher;
 use App\TeacherDetail;
 use DB;
+use Excel;
+use App\Services\TemplateService;
 
 class SchooleTeacherService extends BaseService
 {
@@ -74,6 +76,27 @@ class SchooleTeacherService extends BaseService
             return $this->getReturnArr(FALSE, '数据操作失败');
         }
         return $this->getReturnArr();
+    }
+
+    /**
+     * 教师导入模板下载
+     */
+    public function teacherTemplate(){
+        $title = TemplateService::getTeacherExportTitle();
+        $this->templateExport("teacher", $title);
+    }
+
+    public function studentTemplate(){
+        $title = TemplateService::getStudentsExportTitle();
+        $this->templateExport("student", $title);
+    }
+
+    protected function templateExport(String $fileName, Array $title){
+        Excel::create($fileName, function($excel)use($fileName,$title){
+            $excel->sheet($fileName, function($sheet)use($title){
+                $sheet->fromArray($title);
+            });
+        })->export("xls");
     }
 }
 
