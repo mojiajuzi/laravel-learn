@@ -65,8 +65,8 @@
                 <div><p　class="text-warning">请先下载<a href="{{action('SchooleTeacherController@teacherTemplate')}}">导入模板</a></p></div>
                 <div>
                     <form action="{{action('SchooleTeacherController@teacherImport')}}" method="post" enctype="multipart/form-data">
-                        <input type="file" name="teacher" />
-                        <input type="submit" name="sub" value="导入">
+                        <input type="file" id="file" name="teacher" />
+                        <input type="submit" class="btn btn-primary" name="sub" value="导入" id="upload">
                     </form>
                 </div>
             </div>
@@ -100,5 +100,27 @@
         $(".show-file_export").on("click", function(e){
             $("#templateExportModal").modal('show');
         })
+</script>
+<script>
+    (function () { 
+        document.getElementById('upload').onclick = function (e) {
+            e.preventDefault();
+          var data = new FormData();
+          var url = "{{action('SchooleTeacherController@teacherImport')}}";
+          data.append('teacher', document.getElementById('file').files[0]);
+          var config = {
+            onUploadProgress: function(progressEvent) {
+              var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+            }
+          };
+          axios.post(url, data, config)
+            .then(function (res) {
+                console.log(res);
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+        };
+      })();
 </script>
 @endsection

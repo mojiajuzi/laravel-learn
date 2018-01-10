@@ -50,6 +50,9 @@ class SchooleTeacherController extends Controller
         return view("admin.apply_schoole.index", $this->data);
     }
 
+    /**
+     * 学校审核教师申请流表
+     */
     public function applyReview(Request $request){
        $rules = [
            'id' => 'required|integer|exists:schoole_teachers',
@@ -67,7 +70,17 @@ class SchooleTeacherController extends Controller
     }
 
     public function teacherImport(Request $request){
-        dd("hello");
+        if (!$request->hasFile('teacher'))
+            return response()->json(['status' => false, 'msg' => '请选择文件']);
+        
+        if(!$request->file("teacher")->isValid())
+            return response()->json(['status' => false, 'msg' => '文件已损坏，请上传新的文件']);
+        
+        $file = $request->file("teacher");
+        $ext = $file->guessClientExtension();
+        if(!in_array($ext, ['xls', 'xlsx']))
+            return response()->json(['status' => false, 'msg' => "文件类型不符合要求"]);
+        $this->service->teacherImport($file);
     }
 
 
