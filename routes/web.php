@@ -42,5 +42,5 @@ Route::group(['prefix' => 'schoole'], function(){
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('logout', 'Auth\LoginController@getLogout');
+Route::get('/logout', 'Auth\LoginController@getLogout');
 Route::resource('roles', 'RoleController');
