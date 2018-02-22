@@ -1,5 +1,5 @@
 <div class="modal-body">
-        <form class="form-horizontal" method="POST" action="{{action('GradeController@update', ['id' => $grade->id])}}" role="form" id="department_edit_form">
+        <form class="form-horizontal" method="POST" action="{{action('GradeController@update', ['id' => $grade->id])}}" role="form" id="edit_form">
                 {{ csrf_field() }}
                 {{ method_field('PUT')}}
                 <div class="form-group">
@@ -18,5 +18,5 @@
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary" id="department_submit">提交</button>
+        <button type="button" class="btn btn-primary" id="create_submit">提交</button>
         </div>

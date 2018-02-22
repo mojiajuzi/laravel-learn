@@ -39,7 +39,7 @@
                             <td>{{$detail->grade_full_name}}</td>
                             <td>{{$detail->grade_name}}</td>
                             <td>
-                                    <a href="#" class=" text-danger department_edit" data-edit_url="{{action('GradeController@update', ['id' => $detail->id])}}/edit">修改</a>
+                                    <a href="#" class=" text-danger edit" data-edit_url="{{action('GradeController@update', ['id' => $detail->id])}}/edit">修改</a>
                                     <span>|</span>
                                     <a href="{{action('PositionController@index')}}?department_id={{$detail->id}}" class="text-primary">班级</a>
                                     <span>|</span>                                    
@@ -69,47 +69,5 @@
 
 @section('page_script')
 <script src="/js/toggle.form.js"></script>
-<script>
-        {{--  编辑  --}}
-        $(".department_edit").on("click", function(e){
-            var url = $(this).data('edit_url');
-            $.ajax({
-                url:url,
-                method:'GET',
-                type: 'HTML',
-                success: function(data){
-                    $("#content").html(data);
-                    $("#departmentModal").modal('show');
-                },
-                errors: function(){
-                    toastr.error("请求发送失败");
-                }
-            });
-        });
-
-        {{--  提交  --}}
-        $(document).on('click', "#department_submit", function(event){
-           var url = $("#department_edit_form").attr("action");
-           $.ajax({
-               url: url,
-               data: $("#department_edit_form").serialize(),
-               method: 'POST',
-               type: 'JSON',
-               success: function(data){
-                    if(data.status){
-                        $("#departmentModal").modal('hide');
-                        toastr.success(data.msg)
-                        setTimeout(function(){
-                            window.location.reload();
-                        }, 1000);
-                    }else{
-                        toastr.warning(data.msg);
-                    }
-               },
-               errors: function(){
-                toastr.error("请求发送失败");
-               }
-           })
-        });
-</script>
+<script src="/js/create.js"></script>
 @endsection

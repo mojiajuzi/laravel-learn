@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SchooleTeacher extends Model
 {
+    const APPLY_PASS = 1;
     protected $table = 'schoole_teachers';
 
     protected $guarded = [];
