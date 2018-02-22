@@ -29,7 +29,7 @@ class TemplateService {
         return [
             "teacher_name" => ["required", "string", new zhcn],
             "teacher_sex" => ["required", "string",new zhcn],
-            "teacher_birthday" => "required|date-format:Y-m-d",
+            "teacher_birthday" => "required|date",
             "teacher_mobile" => ["required",new mobile]
         ];
     }

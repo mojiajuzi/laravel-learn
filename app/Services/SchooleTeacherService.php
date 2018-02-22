@@ -69,7 +69,8 @@ class SchooleTeacherService extends BaseService
                 $teacherData = [
                     'teacher_uuid' => $recoder->user->user_uuid,
                     'teacher_name' => $recoder->user->name,
-                    'schoole_uuid' => $schooleUUID
+                    'schoole_uuid' => $schooleUUID,
+                    'teacher_mobile' => $recoder->user->mobile
                 ];
                 TeacherDetail::create($teacherData);
                 $recoder->status = $action;
@@ -78,7 +79,7 @@ class SchooleTeacherService extends BaseService
         }catch(Exception $e){
             return $this->getReturnArr(FALSE, '数据操作失败');
         }
-        return $this->getReturnArr();
+        return $this->getReturnArr(TRUE, '操作成功');
     }
 
     /**
@@ -114,8 +115,9 @@ class SchooleTeacherService extends BaseService
         })->get();
         $errors = [];
         if(!empty($data) && $data->count()){
+            $rules = TemplateService::teacherExcelTitleValideRule();
             foreach($data as $k => $detail){
-                $result = $this->validateTeacherData($detail);
+                $result = $this->validateTeacherData($detail->toArray(), $rules);
                 if($result['status']){
                     $this->registerAccountAndAddSchoole($schooleUUID, $result['data']);
                 }else{
@@ -123,6 +125,7 @@ class SchooleTeacherService extends BaseService
                 }
             }
         }
+        return $this->getReturnArr(TRUE, '操作成功');
     }
 
     /**
@@ -131,7 +134,7 @@ class SchooleTeacherService extends BaseService
     protected function validateTeacherData(Array $data, Array $rules): Array {
         $data = array_combine(array_keys($rules), $data);
         $v = Validator::make($data, $rules);
-        if($v->falis())
+        if($v->fails())
             return ['status' => false, 'errors' => $v->errors(), 'data' => $data];
         return ['status' => TRUE, 'data' => $data];
     }
@@ -140,7 +143,7 @@ class SchooleTeacherService extends BaseService
         try {
             DB::transaction(function()use($schooleUUID, $data){
                 //判断用户是否已经注册了帐号
-                $user = User::where("mobile", $data['mobile'])->first();
+                $user = User::where("mobile", $data['teacher_mobile'])->first();
 
                 if(!is_null($user)){
                     //判断用户是否已经向学校申请
@@ -157,12 +160,12 @@ class SchooleTeacherService extends BaseService
                 }else{
                     $user =  User::create([
                             "name" => $data["teacher_name"],
-                            "phone" => $data["teacher_mobile"],
+                            "mobile" => $data["teacher_mobile"],
                             'password' => bcrypt($data['teacher_mobile']),
                             'user_uuid' => Uuid::generate()->string
                         ]);
                         $this->applyRecoderCreate($schooleUUID, $user->user_uuid);
-                        $this->creatTeacherDetail($data, $schooleUUID);
+                        $this->creatTeacherDetail($data, $schooleUUID, $user->user_uuid);
                     }
             });
         } catch(Exception $e){
@@ -170,8 +173,10 @@ class SchooleTeacherService extends BaseService
         }
     }
 
-    protected function creatTeacherDetail(Array $data, String $schooleUUID){
+    protected function creatTeacherDetail(Array $data, String $schooleUUID, String $userUUID){
         $data["schoole_uuid"] = $schooleUUID;
+        $data['teacher_uuid'] = $userUUID;
+        $data["teacher_sex"] = ($data["teacher_sex"] == "男") ? 1 : 0;
         TeacherDetail::create($data);
     }
 

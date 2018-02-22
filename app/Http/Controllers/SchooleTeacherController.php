@@ -80,7 +80,8 @@ class SchooleTeacherController extends Controller
         $ext = $file->guessClientExtension();
         if(!in_array($ext, ['xls', 'xlsx']))
             return response()->json(['status' => false, 'msg' => "文件类型不符合要求"]);
-        $this->service->teacherImport($file);
+
+        $this->service->teacherImport($file, $this->getSchooleUuid());
     }
 
 
