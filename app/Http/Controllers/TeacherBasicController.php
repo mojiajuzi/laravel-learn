@@ -7,14 +7,19 @@ use Illuminate\Http\Request;
 
 class TeacherBasicController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+        $this->data["basic"] = TeacherBasic::where("teacher_uuid", $user->user_uuid)->first();
+        return view("teacher.basic.index", $this->data);
     }
 
     /**
@@ -57,7 +62,8 @@ class TeacherBasicController extends Controller
      */
     public function edit(TeacherBasic $teacherBasic)
     {
-        //
+        $this->data["basic"] = $teacherBasic;
+        return view("teacher.basic.update", $this->data);
     }
 
     /**

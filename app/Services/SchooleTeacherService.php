@@ -67,13 +67,12 @@ class SchooleTeacherService extends BaseService
         
         try {
             DB::transaction(function()use($recoder,$action, $schooleUUID){
-                $teacherData = [
-                    'teacher_uuid' => $recoder->user->user_uuid,
-                    'teacher_name' => $recoder->user->name,
-                    'schoole_uuid' => $schooleUUID,
-                    'teacher_mobile' => $recoder->user->mobile
-                ];
-                TeacherDetail::create($teacherData);
+                $basicdata["teacher_uuid"] = $recoder->user->user_uuid;
+                $basicdata["schoole_uuid"] = $schooleUUID;
+                $basicdata["mobile"] = $recoder->user->mobile;
+                $basicdata["teacher_name"] = $recoder->user->name;
+                $basicdata["updated_at"] = $basicdata["created_at"] = time();
+                TeacherDetail::insert($basicdata);
                 $recoder->status = $action;
                 $recoder->save();
             });
@@ -180,6 +179,7 @@ class SchooleTeacherService extends BaseService
         $basicdata["mobile"] = $data["teacher_mobile"];
         $basicdata["gender"] = ($data["teacher_sex"] == "男") ? "male" : "female";
         $basicdata["teacher_name"] = $data["teacher_name"];
+        $basicdata["updated_at"] = $basicdata["created_at"] = time();
         TeacherBasic::insert($basicdata);
     }
 

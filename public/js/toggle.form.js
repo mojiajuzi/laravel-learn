@@ -10,7 +10,6 @@ $("#create-form-hide").on("click", function(e){
 
 
 $(".submit-form").on("click", function(){
-    console.log("heheheh");
     setTimeout(function(){
         window.location.reload();
     }, 1500);
