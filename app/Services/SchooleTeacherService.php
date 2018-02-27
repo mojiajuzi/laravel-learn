@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Schoole;
 use App\SchooleTeacher;
 use App\TeacherDetail;
+use App\Teacher\TeacherBasic;
 use DB;
 use Excel;
 use Validator;
@@ -149,13 +150,13 @@ class SchooleTeacherService extends BaseService
                     //判断用户是否已经向学校申请
                     $apply = SchooleTeacher::where("teacher_uuid", $user->user_uuid)->where("schoole_uuid", $schooleUUID)->first();
                     if(is_null($apply)){
-                        $this->applyRecoderCreate($schooleUUID, $userUUID);
-                        $this->creatTeacherDetail($data, $schooleUUID);
+                        $this->applyRecoderCreate($schooleUUID, $user->user_uuid);
+                        $this->creatTeacherDetail($data, $schooleUUID, $user->user_uuid);
                     }elseif(SchooleTeacher::APPLY_PASS != $apply->status){
                         //申请未通过,需要审核通过，并创建教师帐号信息
                         $apply->status = SchooleTeacher::APPLY_PASS;
                         $apply->save();
-                        $this->creatTeacherDetail($data, $schooleUUID);
+                        $this->creatTeacherDetail($data, $schooleUUID, $user->user_uuid);
                     }
                 }else{
                     $user =  User::create([
@@ -174,10 +175,12 @@ class SchooleTeacherService extends BaseService
     }
 
     protected function creatTeacherDetail(Array $data, String $schooleUUID, String $userUUID){
-        $data["schoole_uuid"] = $schooleUUID;
-        $data['teacher_uuid'] = $userUUID;
-        $data["teacher_sex"] = ($data["teacher_sex"] == "男") ? 1 : 0;
-        TeacherDetail::create($data);
+        $basicdata["teacher_uuid"] = $userUUID;
+        $basicdata["schoole_uuid"] = $schooleUUID;
+        $basicdata["mobile"] = $data["teacher_mobile"];
+        $basicdata["gender"] = ($data["teacher_sex"] == "男") ? "male" : "female";
+        $basicdata["teacher_name"] = $data["teacher_name"];
+        TeacherBasic::insert($basicdata);
     }
 
     protected function applyRecoderCreate($schooleUUID, $userUUID){

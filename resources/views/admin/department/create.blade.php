@@ -3,7 +3,7 @@
 <div class="form-group">
         <label for="schoole_en_name" class="col-sm-2 control-label">上级</label>
         <div class="col-sm-10">
-         <select name="department_parent_id" id="">
+         <select name="department_parent_id" id="" class="form-control">
              <option value="0">无</option>
              @if(isset($departmentAll))
              @foreach($departmentAll as $department)

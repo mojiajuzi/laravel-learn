@@ -69,6 +69,12 @@ class SchooleTeacherController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * 教师批量导入
+     *
+     * @param Request $request
+     * @return void
+     */
     public function teacherImport(Request $request){
         if (!$request->hasFile('teacher'))
             return response()->json(['status' => false, 'msg' => '请选择文件']);

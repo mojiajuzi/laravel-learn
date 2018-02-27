@@ -10,7 +10,7 @@
             <div class="form-group">
                     <label for="schoole_en_name" class="col-sm-2 control-label">学校</label>
                     <div class="col-sm-10">
-                     <select name="schoole_uuid" id="">
+                     <select name="schoole_uuid" id="" class="form-control">
                          {{--  TODO:暂时不做下拉搜索  --}}
                          <option value="0">选择学校</option>
                          @if(isset($schooleList))
