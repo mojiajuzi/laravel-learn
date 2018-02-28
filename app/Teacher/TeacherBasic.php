@@ -5,24 +5,21 @@ namespace App\Teacher;
 use Illuminate\Database\Eloquent\Model;
 use App\Rules\ZhcnMobileRule as mobile;
 use App\Rules\ZhcnNameRule as zhcn;
+use App\Helper\CultureHelper;
 
 class TeacherBasic extends Model
 {
     protected $table = "teacher_basics";
 
-    protected $appends = ['culture_type_text', 'id_card_arr', 'id_type_text'];
+    protected $appends = ['culture_type_text', 'id_type_text'];
 
-    public function getIdCardArrAttribute(){
-        return Employee::getCardType();
-    }
-
+    /**
+     * 获取证件名称
+     *
+     * @return void
+     */
     public function getIdTypeTextAttribute(){
-        $arr = Employee::getCardType();
-        if(isset($arr[$this->attributes["id_type"]])){
-            return $arr[$this->attributes["id_type"]];
-        }else{
-            return "身份证";
-        }
+        return App\Helper\CardHelper::getCardNameById($this->attributes["id_type"]);
     }
 
     /**
@@ -30,7 +27,7 @@ class TeacherBasic extends Model
      * @return [type] [description]
      */
     public function getCultureTypeTextAttribute(){
-        return static::getCultureText($this->attributes['culture_type']);
+        return CultureHelper::getCultureNameById($this->attributes['culture_type']);
     }
 
     public static function getValidatorCreateRules(String $teacherUUID){
