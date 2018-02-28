@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Teacher\TeacherBasic;
 use Illuminate\Http\Request;
+use Validator;
 
 class TeacherBasicController extends Controller
 {
@@ -75,7 +76,27 @@ class TeacherBasicController extends Controller
      */
     public function update(Request $request, TeacherBasic $teacherBasic)
     {
-        //
+       $rules = TeacherBasic::getValidatorCreateRules($teacherBasic->teacher_uuid);
+       $params = $request->all();
+       $v = Validator::make($params, $rules);
+       if ($v->fails()){
+           $error = $v->errors()->first();
+           $errors = $v->errors();
+           $data = ['code' => 0, 'status' => false, 'msg'=>$error, 'res'=>[], 'errors'=>$errors];
+           return response()->json($data);
+       }
+       foreach($rules as $k => $rule){
+           if(isset($params[$k]) &&  $params[$k])
+                $teacherBasic->$k = $params[$k];
+       }
+       $result = [];
+       try{
+           $teacherBasic->save();
+           $result = ['code' => 0, 'status' => TRUE, 'msg'=>success, 'res'=>[data]];
+       }catch(Exception $e){
+           $result = ['code' => 0, 'status' => FALSE, 'msg'=>fail, 'res'=>[]];
+       }
+       return response()->json($result);
     }
 
     /**

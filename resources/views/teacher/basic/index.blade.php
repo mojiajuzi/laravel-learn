@@ -87,16 +87,14 @@
     $(document).on('click', ".edit_teacher_operator", function(event){
         var that = $(".teacher_edit_operator_form");
         var url = that.attr("action");
-        console.log(url);
-        
-        $.post(url, that.serialize(), function(data){
-            if(data.status){
+        axios.post(url, that.serialize()).then(response => {
+            if(response.data.status){
                 $("#editModal").modal('hide');
                 window.location.reload();
             }else{
-                $("#update_date_error").show().children("p").text(data.msg);
-            }
-        });
+                $("#update_date_error").show().children("p").text(response.data.msg);
+            }        
+        })
     });
 </script>
 @endsection

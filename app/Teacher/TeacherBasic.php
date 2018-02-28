@@ -3,6 +3,8 @@
 namespace App\Teacher;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Rules\ZhcnMobileRule as mobile;
+use App\Rules\ZhcnNameRule as zhcn;
 
 class TeacherBasic extends Model
 {
@@ -35,12 +37,12 @@ class TeacherBasic extends Model
         return [
             "mobile" => ["nullable", new mobile],
             "email" => "nullable|email",
-            "teacher_name" => "required|zhcn",
-            "gender" => "nullable|in:male,female",
-            "nation" => "nullable|string",
+            "teacher_name" => ["required", new zhcn],
+            "gender" => "required|in:male,female",
+            "nation" => "required|string",
             "native_place" => "nullable|string",
             "id_type" => "required|integer",
-            "id_card" => "nullable|string",
+            "id_card" => "required|string",
             "mertial" => "required|integer",
             "political" => "required|integer",
             "birthday" => "required|date-format:Y-m-d",

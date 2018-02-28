@@ -12,6 +12,7 @@
            <input type="text" class="form-control" name="teacher_name" value="{{$basic->teacher_name or ''}}" />
         </div>
     </div>
+    {{ method_field('PUT') }}
     <div class="form-group">
         <label for="" class="col-sm-3 control-label">性别：</label>
 
