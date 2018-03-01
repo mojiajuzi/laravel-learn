@@ -5,6 +5,13 @@ namespace App\Http\Controllers;
 use App\Teacher\TeacherBasic;
 use Illuminate\Http\Request;
 use Validator;
+use App\Helper\GenderHelper;
+use App\Helper\CultureHelper;
+use App\Helper\CardHelper;
+use App\Helper\MarryHelper;
+use App\Helper\PoliticalHelper;
+use App\Helper\DegreeHelper;
+use App\Helper\PermananentHelper;
 
 class TeacherBasicController extends Controller
 {
@@ -64,6 +71,12 @@ class TeacherBasicController extends Controller
     public function edit(TeacherBasic $teacherBasic)
     {
         $this->data["basic"] = $teacherBasic;
+        $this->data['genderArr'] = GenderHelper::getGenderType();
+        $this->data['cultureArr'] = CultureHelper::getCultureType();
+        $this->data['cardArr'] = CardHelper::getCardType();
+        $this->data['marryArr'] = MarryHelper::getMarryType();
+        $this->data['politicalArr'] = PoliticalHelper::getPoliticalType();
+        $this->data['permananentArr'] = PermananentHelper::getPermananentType();
         return view("teacher.basic.update", $this->data);
     }
 
@@ -92,9 +105,9 @@ class TeacherBasicController extends Controller
        $result = [];
        try{
            $teacherBasic->save();
-           $result = ['code' => 0, 'status' => TRUE, 'msg'=>success, 'res'=>[data]];
+           $result = ['code' => 0, 'status' => TRUE, 'msg'=>"基本资料更新成功", 'res'=>[$params]];
        }catch(Exception $e){
-           $result = ['code' => 0, 'status' => FALSE, 'msg'=>fail, 'res'=>[]];
+           $result = ['code' => 0, 'status' => FALSE, 'msg'=>"基本资料更新失败", 'res'=>[$params]];
        }
        return response()->json($result);
     }

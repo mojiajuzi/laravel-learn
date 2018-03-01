@@ -6,20 +6,47 @@ use Illuminate\Database\Eloquent\Model;
 use App\Rules\ZhcnMobileRule as mobile;
 use App\Rules\ZhcnNameRule as zhcn;
 use App\Helper\CultureHelper;
+use App\Helper\CardHelper;
+use App\Helper\GenderHelper;
+use App\Helper\MarryHelper;
+use App\Helper\PoliticalHelper;
+use App\Helper\PermananentHelper;
 
 class TeacherBasic extends Model
 {
     protected $table = "teacher_basics";
 
-    protected $appends = ['culture_type_text', 'id_type_text'];
-
+    protected $appends = [
+        'culture_type_text', 
+        'id_type_text', 
+        'gender_text', 
+        'martial_text',
+        'political_text',
+        'permananent_address_type_text'
+    ];
     /**
      * 获取证件名称
      *
      * @return void
      */
     public function getIdTypeTextAttribute(){
-        return App\Helper\CardHelper::getCardNameById($this->attributes["id_type"]);
+        return CardHelper::getCardNameById($this->attributes["id_type"]);
+    }
+
+    public function getGenderTextAttribute(){
+        return GenderHelper::getGenderNameById($this->attributes["gender"]);
+    }
+
+    public function getMartialTextAttribute(){
+        return MarryHelper::getMarryNameById($this->attributes["martial"]);
+    }
+
+    public function getPoliticalTextAttribute(){
+        return PoliticalHelper::getPoliticalById($this->attributes["political"]);
+    }
+
+    public function getPermananentAddressTypeTextAttribute(){
+        return PermananentHelper::getPermananentNameById($this->attributes["permananent_address_type"]);
     }
 
     /**
@@ -40,7 +67,7 @@ class TeacherBasic extends Model
             "native_place" => "nullable|string",
             "id_type" => "required|integer",
             "id_card" => "required|string",
-            "mertial" => "required|integer",
+            "martial" => "required|integer",
             "political" => "required|integer",
             "birthday" => "required|date-format:Y-m-d",
             "permanent_address" => "required|string",

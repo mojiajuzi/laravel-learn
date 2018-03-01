@@ -10,7 +10,6 @@ class  CardHelper {
 
     public static function getCardType(){
         return [
-            self::CARD_TYPE_ALL      => "全部",
             self::CARD_TYPE_ID       => "身份证",
             self::CARD_TYPE_HK_MK    => "港澳通行证",
             self::CARD_TYPE_TW       => "台胞证",

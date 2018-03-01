@@ -28,6 +28,6 @@ class MarryHelper
 
     public static function getMarryNameById(Int $marryID){
         $marryArr = self::getMarryType();
-        isset($marryArr[$marryID]) ? $marryArr[$marryID] : self::MARRY_SPINSTERHOOD;
+        return isset($marryArr[$marryID]) ? $marryArr[$marryID] : self::MARRY_SPINSTERHOOD;
     }
 }

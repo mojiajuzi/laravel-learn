@@ -5,7 +5,7 @@
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">性别：</label>
-        <div  class="col-sm-9">{{$basic->gender or ''}}</div>
+        <div  class="col-sm-9">{{$basic->gender_text or ''}}</div>
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">生日：</label>
@@ -13,7 +13,7 @@
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">文化程度：</label>
-        <div  class="col-sm-9">{{$basic->culture_type or ''}}</div>
+        <div  class="col-sm-9">{{$basic->culture_type_text or ''}}</div>
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">手机：</label>
@@ -33,7 +33,7 @@
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">证件类型：</label>
-        <div  class="col-sm-9">{{$basic->id_type or ''}}</div>
+        <div  class="col-sm-9">{{$basic->id_type_text or ''}}</div>
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">证件号码：</label>
@@ -41,15 +41,15 @@
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">婚姻状态：</label>
-        <div  class="col-sm-9">{{$basic->martial or ''}}</div>
+        <div  class="col-sm-9">{{$basic->martial_text or ''}}</div>
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">政治面貌：</label>
-        <div  class="col-sm-9">{{$basic->political or ''}}</div>
+        <div  class="col-sm-9">{{$basic->political_text or ''}}</div>
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">户籍类型：</label>
-        <div  class="col-sm-9">{{$basic->permananent_address_type or ''}}</div>
+        <div  class="col-sm-9">{{$basic->permananent_address_type_text or ''}}</div>
     </div>
     <div class="col-sm-6">
         <label for="" class="col-sm-3">户籍：</label>

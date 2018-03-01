@@ -1,5 +1,6 @@
 @extends("layouts.app")
 @section("head_css")
+<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
 <style>
     .dashed{
         height: 0;border-bottom: 1px dashed #ccc;
@@ -60,30 +61,37 @@
 </div><!-- /.modal -->
 @endsection
 @section("page_script")
+ <script src="/js/bootstrap-datepicker.min.js"></script>
 <script>
+    var moduleArr = new Array();
+    moduleArr["#basic"] = true;
+    moduleArr["#education"] = false;
+    moduleArr['#work'] = false;
+    moduleArr['#family'] = false;
+    moduleArr['#emergency'] = false;
     $('#teacher_detail a').click(function (e) {
         e.preventDefault()
         $(this).tab('show')
-        
+        var tabHref = $(this).attr("href");
+        if(!moduleArr[tabHref]){
+            var tabURL  = $(this).data("url");
+            axios.get(tabURL).then(response =>{
+                $(tabHref).html(response.data);
+                moduleArr[tabHref] = true;
+            })
+        }
     })
         //编辑
     $(document).on("click",".edit_teacher_form",function(event){
         event.preventDefault();
         var editurl = $(this).data("url")
-        console.log(editurl);
-        
-        $.ajax({
-            url: editurl,
-            method:'GET',
-            type: 'html',
-            success: function(data){
-                $("#editModal").modal('show');
-                $("#edit_content").html(data);
-            },
-            error: function(){}
-        });
+        axios.get(editurl).then(response =>{
+            $("#editModal").modal('show');
+            $("#edit_content").html(response.data);
+        })
     });
 
+    // 提交代码
     $(document).on('click', ".edit_teacher_operator", function(event){
         var that = $(".teacher_edit_operator_form");
         var url = that.attr("action");
@@ -92,7 +100,8 @@
                 $("#editModal").modal('hide');
                 window.location.reload();
             }else{
-                $("#update_date_error").show().children("p").text(response.data.msg);
+                toastr.warning(response.data.msg);
+                // $("#update_date_error").show().children("p").text(response.data.msg);
             }        
         })
     });
