@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Teacher\TeacherEducation;
 use Illuminate\Http\Request;
+use App\Helper\MajorHelper;
+use App\Helper\CultureHelper;
+use Validator;
 
 class TeacherEducationController extends Controller
 {
@@ -12,9 +15,11 @@ class TeacherEducationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+        $this->data["educationList"] = TeacherEducation::where("teacher_uuid", $user->user_uuid)->get();
+        return view("teacher.education.index", $this->data);
     }
 
     /**
@@ -24,7 +29,7 @@ class TeacherEducationController extends Controller
      */
     public function create()
     {
-        //
+        return view("teacher.education.create");
     }
 
     /**
@@ -35,7 +40,26 @@ class TeacherEducationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->all();
+        $userUUID = $request->user()->user_uuid;
+        $rules = TeacherEducation::getValidatorCreateRules($userUUID);
+        $v = Validator::make($params, $rules);
+        if ($v->fails()){
+            $error = $v->errors()->first();
+            $errors = $v->errors();
+            $data = ['code' => 0, 'status' => false, 'msg'=>$error, 'res'=>[], 'errors'=>$errors];
+            return response()->json($data);
+        }
+        $data = array_intersect_key($params, $rules);
+        $data["teacher_uuid"] = $userUUID;
+        $result = [];
+        try{
+            $education = TeacherEducation::create($data);
+            $result = ['code' => 0, 'status' => TRUE, 'msg'=>"数据创建成功", 'res'=>[$education->toArray()]];
+        }catch(Exception $e){
+            $result = ['code' => 0, 'status' => FALSE, 'msg'=>"记录创建失败", 'res'=>[]];
+        }
+        return response()->json($result);
     }
 
     /**

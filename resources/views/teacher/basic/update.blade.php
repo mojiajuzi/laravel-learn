@@ -25,7 +25,7 @@
         <label for="" class="col-sm-3 control-label">出生日期：</label>
 
         <div  class="col-sm-9">
-           <input type="text" class="form-control" id="hpdate"  name="birthday" value="{{$basic->birthday or ''}}" />
+           <input type="text" class="hpdate form-control" name="birthday" value="{{$basic->birthday or ''}}" />
         </div>
     </div>
     <div class="form-group">
@@ -144,9 +144,3 @@
     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
     <button type="button" class="btn btn-primary edit_teacher_operator">更新</button>
 </div>
-<script>
-    $("#hpdate").datepicker({
-        format: "yyyy-mm-dd",
-        StartDate: "1980-01-01"
-    });
-</script>

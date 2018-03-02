@@ -45,10 +45,10 @@
         <div role="tabpanel" class="tab-pane active" id="basic">
             @include("teacher.basic.detail")
         </div>
-        <div role="tabpanel" class="tab-pane" id="education">education</div>
-        <div role="tabpanel" class="tab-pane" id="work">work</div>
-        <div role="tabpanel" class="tab-pane" id="family">...</div>
-        <div role="tabpanel" class="tab-pane" id="emergency">...</div>
+        <div role="tabpanel" class="tab-pane" id="education">加载中...</div>
+        <div role="tabpanel" class="tab-pane" id="work">加载中...</div>
+        <div role="tabpanel" class="tab-pane" id="family">加载中...</div>
+        <div role="tabpanel" class="tab-pane" id="emergency">加载中...</div>
     </div>
     </div>
  </div>
@@ -56,6 +56,12 @@
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="...">
   <div class="modal-dialog" role="document">
     <div class="modal-content" id="edit_content">
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="...">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" id="create_content">
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -81,7 +87,11 @@
             })
         }
     })
-        //编辑
+    $(".hpdate").datepicker({
+        format: "yyyy-mm-dd",
+        StartDate: "1980-01-01"
+    });
+    //编辑
     $(document).on("click",".edit_teacher_form",function(event){
         event.preventDefault();
         var editurl = $(this).data("url")
@@ -91,7 +101,31 @@
         })
     });
 
-    // 提交代码
+    //创建
+    $(document).on("click",".show-create-teacherinfo-form",function(event){
+        event.preventDefault();
+        var editurl = $(this).data("url")
+        axios.get(editurl).then(response =>{
+            $("#createModal").modal('show');
+            $("#create_content").html(response.data);
+        })
+    });
+
+    //提交创建请求
+    $(document).on("click", ".create_teacher_operator", function(){
+        var that = $(".teacher_create_operator_form");
+        var url = that.attr("action");
+        axios.post(url, that.serialize()).then(response => {
+            if(response.data.status){
+                $("#createModal").modal('hide');
+                window.location.reload();
+            }else{
+                toastr.warning(response.data.msg);
+            }        
+        })
+    })
+
+    // 提交修改请求
     $(document).on('click', ".edit_teacher_operator", function(event){
         var that = $(".teacher_edit_operator_form");
         var url = that.attr("action");
@@ -101,9 +135,15 @@
                 window.location.reload();
             }else{
                 toastr.warning(response.data.msg);
-                // $("#update_date_error").show().children("p").text(response.data.msg);
             }        
         })
+    });
+
+    //日期选择
+    $(document).on("focus", ".hpdate",  function(){
+        $(this).datepicker({
+            format:"yyyy-mm-dd"
+        });
     });
 </script>
 @endsection
