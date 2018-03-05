@@ -29,6 +29,6 @@ class DegreeHelper
 
     public static function getDegreeNameById(Int $degreeID){
         $degreeArr = self::getDegreeType();
-        return isset($degreeArr[$degreeID]) ? $degreeArr[$degreeID] : self::DEGREE_BACHELOR;
+        return isset($degreeArr[$degreeID]) ? $degreeArr[$degreeID] :'无';
     }
 }

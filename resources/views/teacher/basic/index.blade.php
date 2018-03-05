@@ -101,6 +101,22 @@
         })
     });
 
+    // 提交修改请求
+    $(document).on('click', ".edit_teacher_operator", function(event){
+        var that = $(".teacher_edit_operator_form");
+        var url = that.attr("action");
+        console.log(that.serialize());
+        
+        axios.post(url, that.serialize()).then(response => {
+            if(response.data.status){
+                $("#editModal").modal('hide');
+                window.location.reload();
+            }else{
+                toastr.warning(response.data.msg);
+            }        
+        })
+    });
+
     //创建
     $(document).on("click",".show-create-teacherinfo-form",function(event){
         event.preventDefault();
@@ -124,21 +140,6 @@
             }        
         })
     })
-
-    // 提交修改请求
-    $(document).on('click', ".edit_teacher_operator", function(event){
-        var that = $(".teacher_edit_operator_form");
-        var url = that.attr("action");
-        axios.post(url, that.serialize()).then(response => {
-            if(response.data.status){
-                $("#editModal").modal('hide');
-                window.location.reload();
-            }else{
-                toastr.warning(response.data.msg);
-            }        
-        })
-    });
-
     //日期选择
     $(document).on("focus", ".hpdate",  function(){
         $(this).datepicker({

@@ -15,7 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(
-            'teacher.education.create', 'App\Http\ViewComposers\TeacherEducationComposer'
+            ['teacher.education.create', 'teacher.education.update'], 'App\Http\ViewComposers\TeacherEducationComposer'
         );
     }
 

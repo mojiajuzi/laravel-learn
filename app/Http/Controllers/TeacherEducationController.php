@@ -81,7 +81,8 @@ class TeacherEducationController extends Controller
      */
     public function edit(TeacherEducation $teacherEducation)
     {
-        //
+        $this->data["education"] = $teacherEducation;
+        return view('teacher.education.update', $this->data);
     }
 
     /**

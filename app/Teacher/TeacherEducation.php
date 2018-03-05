@@ -10,14 +10,14 @@ class TeacherEducation extends Model
 {
     protected $table = "teacher_educations";
 
-    protected $appends = ['culture_type_text', 'degree_text'];
+    protected $appends = ['culture_text', 'degree_text'];
 
     protected $guarded = [];
     /**
      * 获取学历
      * @return [type] [description]
      */
-    public function getCultureTypeTextAttribute(){
+    public function getCultureTextAttribute(){
         return CultureHelper::getCultureNameById($this->attributes['culture']);
     }
     /**

@@ -18,12 +18,12 @@
                     <th>{{$education->schoole_name}}</th>
                     <th>{{$education->start_at}}</th>
                     <th>{{$education->end_at}}</th>
-                    <th>{{$education->major}}</th>
-                    <th>{{$education->culture}}</th>
+                    <th>{{$education->major or "无"}}</th>
+                    <th>{{$education->culture_text}}</th>
                     <th>{{$education->culture_number}}</th>
-                    <th>{{$education->degree}}</th>
+                    <th>{{$education->degree_text}}</th>
                     <th>{{$education->degree_number}}</th>
-                    <th></th>
+                    <th><button class=" btn btn-sm btn-primary edit_teacher_form" data-url="{{url('/teacher/education')}}/{{$education->id}}/edit">更新</button>|<a href="#">删除</a></th>
                 </tr>
             @endforeach
         </tbody>

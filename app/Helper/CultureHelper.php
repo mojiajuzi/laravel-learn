@@ -75,6 +75,6 @@ class CultureHelper {
 
     public static function getCultureNameById(Int $cultureID){
         $cultureArr = self::getCultureType();
-        return isset($cultureArr[$cultureID]) ? $cultureArr[$cultureID] : self::CULTURE_UNDERGRADUATE;
+        return isset($cultureArr[$cultureID]) ? $cultureArr[$cultureID] : "无";
     }
 }
