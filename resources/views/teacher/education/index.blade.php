@@ -23,7 +23,7 @@
                     <th>{{$education->culture_number}}</th>
                     <th>{{$education->degree_text}}</th>
                     <th>{{$education->degree_number}}</th>
-                    <th><button class=" btn btn-sm btn-primary edit_teacher_form" data-url="{{url('/teacher/education')}}/{{$education->id}}/edit">更新</button>|<a href="#">删除</a></th>
+                    <th><button class=" btn btn-sm btn-primary edit_teacher_form" data-url="{{url('/teacher/education')}}/{{$education->id}}/edit">更新</button><button class="btn btn-warning btn-sm delete_teacher_recoder" data-url="{{url('teacher/education')}}/{{$education->id}}">删除</button></th>
                 </tr>
             @endforeach
         </tbody>

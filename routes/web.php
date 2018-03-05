@@ -45,7 +45,9 @@ Route::group(["prefix" => "teacher"], function(){
     Route::resource("/basic", "TeacherBasicController", ["parameters" => [
         "basic" => "teacher_basic"
     ]]);
-    Route::resource("/work", "TeacherWorkController");
+    Route::resource("/work", "TeacherWorkController", ["parameters" => [
+        "work" => "teacher_work"
+    ]]);
     Route::resource("/family", "TeacherFamilyController");
     Route::resource("/emergency", "TeacherEmergencyController");
     Route::resource("/education", "TeacherEducationController", ["parameters" => [

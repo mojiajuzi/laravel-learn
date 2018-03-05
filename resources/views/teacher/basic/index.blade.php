@@ -105,12 +105,10 @@
     $(document).on('click', ".edit_teacher_operator", function(event){
         var that = $(".teacher_edit_operator_form");
         var url = that.attr("action");
-        console.log(that.serialize());
-        
         axios.post(url, that.serialize()).then(response => {
             if(response.data.status){
                 $("#editModal").modal('hide');
-                window.location.reload();
+                toastr.success(response.data.msg);
             }else{
                 toastr.warning(response.data.msg);
             }        
@@ -139,6 +137,20 @@
                 toastr.warning(response.data.msg);
             }        
         })
+    })
+
+
+    $(document).on("click", '.delete_teacher_recoder',function(e){
+        e.preventDefault();
+        var that = $(this);
+        var destoreURL = that.data("url");
+        axios.delete(destoreURL).then(response => {
+            if(response.data.status){
+                that.parents("tr").remove();
+            }
+            toastr.warning(response.data.msg);
+        });
+        
     })
     //日期选择
     $(document).on("focus", ".hpdate",  function(){

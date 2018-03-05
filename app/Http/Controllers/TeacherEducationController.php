@@ -94,7 +94,28 @@ class TeacherEducationController extends Controller
      */
     public function update(Request $request, TeacherEducation $teacherEducation)
     {
-        //
+        $params = $request->all();
+        if(is_null($teacherEducation)){
+            $result = ['code' => 0, 'status' => false, 'msg'=>'记录不存在', 'res'=>[$params]];
+            return response()->json($result);
+        }
+
+        $userUUID = $request->user()->user_uuid;
+        $rules = TeacherEducation::getValidatorCreateRules($userUUID);
+        $v = Validator::make($params, $rules);
+        if ($v->fails()){
+            $error = $v->errors()->first();
+            $errors = $v->errors();
+            $data = ['code' => 0, 'status' => false, 'msg'=>$error, 'res'=>[], 'errors'=>$errors];
+            return response()->json($data);
+        }
+        $data = array_intersect_key($params, $rules);
+        $result = $teacherEducation->update($data);
+        if(!$result){
+            return response()->json(['status' => false, 'msg' => '记录更新失败']);
+        }
+        return response()->json(['status' => true, 'msg' => '记录更新成功']);
+
     }
 
     /**
@@ -103,8 +124,19 @@ class TeacherEducationController extends Controller
      * @param  \App\Teacher\TeacherEducation  $teacherEducation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TeacherEducation $teacherEducation)
+    public function destroy(Request $request, TeacherEducation $teacherEducation)
     {
-        //
+        if($teacherEducation->teacher_uuid != $request->user()->user_uuid){
+            $result = ['code' => 0, 'status' => false, 'msg'=>'你没有权限删除该条记录', 'res'=>[]];
+            return response()->json($result);
+        }
+        $result = [];
+        try{
+            $teacherEducation->delete();
+            $result = ['code' => 0, 'status' => TRUE, 'msg'=>"记录删除成功", 'res'=>[$teacherEducation->toArray()]];
+        }catch(Exception $e){
+            $result = ['code' => 0, 'status' => FALSE, 'msg'=>"记录删除失败", 'res'=>[]];
+        }
+        return response()->json($result);
     }
 }

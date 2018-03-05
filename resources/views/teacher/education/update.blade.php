@@ -4,7 +4,7 @@
 </div>
 
 <div class="modal-body">
-<form class="form-horizontal teacher_edit_operator_form" data-toggle="validator"　method="POST" action="{{url('teacher/education')}}">
+<form class="form-horizontal teacher_edit_operator_form" data-toggle="validator"　method="POST" action="{{url('teacher/education')}}/{{$education->id}}">
     {{ method_field('PUT') }}
     <div class="form-group">
         <label for="" class="col-sm-3 control-label">学校名称：</label>
@@ -60,7 +60,7 @@
         <label for="" class="col-sm-3 control-label">学历编号</label>
 
         <div  class="col-sm-9">
-           <input type="text" class="form-control" name="culture_number" value="{{$education->cluture_number}}" />
+           <input type="text" class="form-control" name="culture_number" value="{{$education->culture_number}}" />
         </div>
     </div>
     <div class="form-group">
