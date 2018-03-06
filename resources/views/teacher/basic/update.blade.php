@@ -142,5 +142,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-    <button type="button" class="btn btn-primary edit_teacher_operator">更新</button>
+    <button type="button" class="btn btn-primary edit_teacher_operator"  data-tab="#basic" data-url="{{url('teacher/basic')}}">更新</button>
 </div>

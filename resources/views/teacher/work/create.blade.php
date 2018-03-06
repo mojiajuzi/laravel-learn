@@ -50,5 +50,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-    <button type="button" class="btn btn-primary create_teacher_operator">创建</button>
+    <button type="button" class="btn btn-primary create_teacher_operator" data-tab="#work" data-url="{{url('teacher/work')}}">创建</button>
 </div>

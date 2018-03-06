@@ -87,10 +87,6 @@
             })
         }
     })
-    $(".hpdate").datepicker({
-        format: "yyyy-mm-dd",
-        StartDate: "1980-01-01"
-    });
     //编辑
     $(document).on("click",".edit_teacher_form",function(event){
         event.preventDefault();
@@ -109,11 +105,22 @@
             if(response.data.status){
                 $("#editModal").modal('hide');
                 toastr.success(response.data.msg);
+                if($(this).data("tab") == "#basic"){
+                    window.location.reload();
+                }else{
+                    getList( $(this).data("tab"),  $(this).data("url"));
+                }
             }else{
                 toastr.warning(response.data.msg);
-            }        
+            }
         })
     });
+
+    function getList(tabId, url){
+        axios.get(url).then(response =>{
+            $(tabId).html(response.data);
+        })
+    }
 
     //创建
     $(document).on("click",".show-create-teacherinfo-form",function(event){
@@ -132,14 +139,14 @@
         axios.post(url, that.serialize()).then(response => {
             if(response.data.status){
                 $("#createModal").modal('hide');
-                window.location.reload();
+                getList( $(this).data("tab"),  $(this).data("url"));
             }else{
                 toastr.warning(response.data.msg);
             }        
         })
     })
 
-
+    //删除
     $(document).on("click", '.delete_teacher_recoder',function(e){
         e.preventDefault();
         var that = $(this);
