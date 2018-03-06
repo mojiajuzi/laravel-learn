@@ -188,6 +188,8 @@ return [
         //Excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
+        //视图共享
+        App\Providers\ComposerServiceProvider::class,
     ],
 
     /*

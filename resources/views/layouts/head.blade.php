@@ -14,5 +14,6 @@
      <link href="/css/toastr.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/css/dashboard.css" rel="stylesheet">
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
+    @yield("head_css")
 </head>

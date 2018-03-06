@@ -12,6 +12,7 @@
 <li><a href="#">教师菜单</a></li>
 <ul>
     <li><a href="/schoole/apply">申请加入学校</a></li>
+    <li><a href="/teacher/basic">资料详情</a></li>
 </ul>
 </ul>
 <ul class="nav nav-sidebar">

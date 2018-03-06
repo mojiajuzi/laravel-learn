@@ -40,6 +40,25 @@ Route::group(['prefix' => 'schoole'], function(){
     Route::resource('teachers', 'TeacherDetailController');
 });
 
+//教师资料填写
+Route::group(["prefix" => "teacher"], function(){
+    Route::resource("/basic", "TeacherBasicController", ["parameters" => [
+        "basic" => "teacher_basic"
+    ]]);
+    Route::resource("/work", "TeacherWorkController", ["parameters" => [
+        "work" => "teacher_work"
+    ]]);
+    Route::resource("/family", "TeacherFamilyController", ["parameters" => [
+        "family" => "teacher_family"
+    ]]);
+    Route::resource("/emergency", "TeacherEmergencyController", ["parameters" => [
+        "emergency" => "teacher_emergency"
+    ]]);
+    Route::resource("/education", "TeacherEducationController", ["parameters" => [
+        "education" => "teacher_education"
+    ]]);
+});
+
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logout', 'Auth\LoginController@getLogout');
