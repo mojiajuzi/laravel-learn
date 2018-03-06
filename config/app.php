@@ -80,6 +80,8 @@ return [
 
     'locale' => 'en',
 
+    // 设置驱动为array，因为 Laravel file and database drivers doesn't support tags
+    'default' => env('CACHE_DRIVER', 'array'),
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -186,6 +188,8 @@ return [
         //Excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
+        //视图共享
+        App\Providers\ComposerServiceProvider::class,
     ],
 
     /*
