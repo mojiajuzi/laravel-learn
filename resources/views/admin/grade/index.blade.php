@@ -9,12 +9,11 @@
         </div>
     </div>
 <div class="row">
-        <div class="col-md-12">
-            <button class="btn btn-info create-form-show">年级创建</button>
-        </div>
-</div>
-<div class="row">
     <div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+        <button class="btn btn-info col-sm-offset-11 btn-sm create-form-show">年级创建</button>
+        </div>
             <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -50,6 +49,7 @@
                         @endforeach
                     </tbody>
                 </table>
+    </div>
     </div>
  </div>
 

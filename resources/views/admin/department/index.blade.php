@@ -9,14 +9,12 @@
     </div>
 </div>
 <div class="row">
-        <div class="col-md-12">
-            <button class="btn btn-info create-form-show">创建</button>
-        </div>
-</div>
-<div class="row">
-    <h4>学校部门列表</h4>
     <div class="col-md-12">
-            <table class="table table-bordered table-hover">
+    <div class="panel panel-default">
+        <div class="panel-body">
+        <button class="btn btn-info col-sm-offset-11 btn-sm create-form-show">创建</button>
+        </div>
+            <table class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
                         <th>
@@ -48,6 +46,8 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+        </div>
     </div>
 </div>
 

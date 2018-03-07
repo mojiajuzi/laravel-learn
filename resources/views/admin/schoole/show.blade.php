@@ -1,40 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
-<h2>学校编辑</h2>
 @include('layouts.errors')
-<form class="form-horizontal" method="POST" action="{{ URL::to('schooles/'.$schoole->id) }}">
-{{ csrf_field() }}
-{{ method_field('PUT')}}
-  <div class="form-group">
-    <label for="schoole_name" class="col-sm-2 control-label">全称</label>
-    <div class="col-sm-10">
-      <span>{{$schoole->schoole_name}}</span>
-    </div>
+<div class="panel panel-default col-sm-7 col-sm-offset-2">
+  <div class="panel-heading">学校信息</div>
+  <div class="panel-body">
+    <div class="col-sm-6">
+          <label for="" class="col-sm-3">全称：</label>
+          <div  class="col-sm-7">{{$schoole->schoole_name}}</div>
+      </div>
+      <div class="col-sm-6">
+          <label for="" class="col-sm-3">简称：</label>
+          <div  class="col-sm-9">{{$schoole->schoole_simple_name}}</div>
+      </div>
+      <div class="col-sm-6">
+          <label for="" class="col-sm-3">英文名：</label>
+          <div  class="col-sm-7">{{$schoole->schoole_en_name}}</div>
+      </div>
+      <div class="col-sm-6">
+          <label for="" class="col-sm-3">编码：</label>
+          <div  class="col-sm-9">{{$schoole->schoole_code }}</div>
+      </div>
+      <div  class="col-sm-6">
+      <label for="" class="col-sm-3">地址：</label>
+          <div  class="col-sm-9">{{$schoole->schoole_address }}</div>
+      </div>
   </div>
-  <div class="form-group">
-    <label for="schoole_simple_name" class="col-sm-2 control-label">简称</label>
-    <div class="col-sm-10">
-      <span>{{$schoole->schoole_simple_name}}</span>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="schoole_en_name" class="col-sm-2 control-label">英文名</label>
-    <div class="col-sm-10">
-      <span>{{$schoole->schoole_en_name }}</span>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="schoole_code" class="col-sm-2 control-label">代码</label>
-    <div class="col-sm-10">
-      <span>{{$schoole->schoole_code }}</span>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="schoole_address" class="col-sm-2 control-label">地址</label>
-    <div class="col-sm-10">
-      <span>{{$schoole->schoole_address }}</span>
-    </div>
-  </div>
-</form>
+</div>
 @endsection

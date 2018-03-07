@@ -27,7 +27,7 @@ class SchooleController extends Controller
             return Redirect::to('schooles/create')->with($this->notification);
         }
         $url = "schooles/".$user->schooles[0]->id;
-        return  Redirect::to($url);
+        return  Redirect::to(url($url));
 
     }
 

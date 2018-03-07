@@ -1,13 +1,11 @@
 @extends('layouts.app')
 @section('content')
 <div class="row">
-    <div class="col-md-12">
-        <button class="btn btn-info  show-file_export">批量导入</button>
-    </div>
-</div>
-<div class="row">
 <div class="col-md-12">
-        <h4>教师申请加入列表</h4>
+        <div class="panel panel-default">
+        <div class="panel-body">
+        <button class="btn btn-info btn-sm col-sm-offset-11  show-file_export">批量导入</button>
+        </div>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -51,6 +49,7 @@
                 @endforeach
             </tbody>
         </table>
+        </div>
  </div>
 </div>
 
