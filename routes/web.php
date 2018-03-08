@@ -65,10 +65,9 @@ Route::get('/logout', 'Auth\LoginController@getLogout');
 Route::resource('roles', 'RoleController');
 Route::get("code", 'HomeController@sendCode');
 Route::get("cache", function(){
-    // \Redis::setex("peter",10, "hello");
-    \Cache::store("redis")->put("old", "hello", 5);
-    $result = \Redis::get("laravel_cache:old");
-    // $res = \Cache::get("peter");
-    // $re = \Cache::store("redis")->get("peter");
-    dd($result);
+    // \Redis::setex("hello",10, "world");
+    \Cache::store("redis")->put("hello", "world", 1);
+    $res = \Redis::get("hello");
+    $re = \Cache::store("redis")->get("hello");
+    dd($res.'-'.$re);
 });
