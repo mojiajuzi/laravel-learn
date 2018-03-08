@@ -1,10 +1,10 @@
 <?php
 namespace App\Services;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Cache;
-use Illiminate\Support\Facades\Carbon;
+use Illuminate\Support\Facades\Redis;
 class CodeService
 {
+    protected $sendLimit = 4;
     /**
      * 生成一个随机的六位验证码
      *
@@ -25,8 +25,8 @@ class CodeService
         $code = (string)$this->getCode();
         $key = $prefix.':'.$codeType;
         $hashCode = Hash::make($code);
-        $expiresAt = now()->addMinutes(5);
-        Cache::put($key, $hashCode, $expiresAt);
+        $expiresAt = $this->getSecondExpire(5);
+        Redis::setex($key, $expiresAt, $hashCode);
         return $code;
     }
 
@@ -45,7 +45,7 @@ class CodeService
         ];
 
         $key = $prefix.':'.$codeType;
-        if(Cache::has($key)){
+        if(Redis::get($key)){
             $res = Hash::check($code, Cache::put($key));
             if($res){
                 $result["res"] = TRUE;
@@ -54,5 +54,30 @@ class CodeService
             }
         }
         return $result;
+    }
+
+    /**
+     * 设置手机用户发送验证码的次数
+     *
+     * @param String $prefix
+     * @param String $codeType
+     * @return void
+     */
+    public function sendCodeLimit(String $prefix, String $codeType){
+        $result = FALSE;
+        if($times = Cache::tags($codeType)->has($prefix)){
+            if($times > $this->sendLimit){
+                return TRUE;
+            }
+            Cache::tags($codeType)->increment($prefix, 1);
+            return $result;
+        }
+        Cache::tags($codeType)->put($prefix, 1);
+        return $result;
+    }
+
+    public function getSecondExpire(Int $min){
+        $expiresAt = now()->addMinutes(5);
+        return $expiresAt->diffInSeconds();
     }
 }

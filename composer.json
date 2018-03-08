@@ -13,6 +13,7 @@
         "laravel/tinker": "~1.0",
         "maatwebsite/excel": "~2.1.0",
         "overtrue/easy-sms": "^1.0",
+        "predis/predis": "^1.1",
         "webpatser/laravel-uuid": "^3.0",
         "zizaco/entrust": "5.2.x-dev"
     },
@@ -59,5 +60,11 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }
