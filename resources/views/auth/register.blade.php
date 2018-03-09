@@ -34,7 +34,7 @@
                                 @endif
                             </div>
                             <div class="col-md-１">
-                                <button type="button" class="btn btn-primary get_code" data-url="{{url('sms/code')}}">获取验证码</button>
+                                <button type="button" class="btn btn-primary get_code" data-url="{{url('code')}}">获取验证码</button>
                             </div>
                         </div>
 

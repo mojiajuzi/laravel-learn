@@ -11,6 +11,7 @@ use App\Services\SmsService;
 use App\Services\CodeService;
 use App\Rules\ZhcnMobileRule as mobile;
 use App\Services\SmsTemplateService;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -62,13 +63,27 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $v =  Validator::make($data, [
             'name' => 'required|string|max:255',
             'mobile' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'code' => 'required|string|min:6'
         ]);
+        if($v->fails())
+            return $v;
+        return $this->withValidator($v, $data);
     }
 
+    public function withValidator($validator, $data)
+    {
+        $validator->after(function ($validator)use($data) {
+            $codeCheck = $this->codeService->checkCode($data['mobile'], $this->cacheType, $data['code']);
+            if (!$codeCheck['status']) {
+                $validator->errors()->add('code', $codeCheck['msg']);
+            }
+        });
+        return $validator;
+    }
     /**
      * Create a new user instance after a valid registration.
      *
@@ -91,7 +106,7 @@ class RegisterController extends Controller
      * @param Request $request
      * @return void
      */
-    public function code(Request $request){
+    public function sendCode(Request $request){
         $params = $request->all();
         $rules = $this->mobileAndCodeRules();
         unset($rules["code"]);
@@ -103,6 +118,11 @@ class RegisterController extends Controller
             return response()->json($data);
         }
 
+        //检测是否允许发送
+        $checkResult = $this->codeService->increSendTimes($params["mobile"], $this->cacheType);
+        if(!$checkResult)
+            return response()->json(['status' => FALSE, 'msg' => '发送数量达上限，三个小时以后再试']);
+
         //获取发送的数据
         $tempKeyAlise = 'vericationCode';
         $code = $this->codeService->cacheCode($params["mobile"], $this->cacheType);
@@ -110,7 +130,7 @@ class RegisterController extends Controller
 
         if(!$data['status'])
             return response()->json($data);
-
+        return response()->json(['status' => TRUE, 'msg' => '发送成功,请注意查收短信']);
         //准备发送
         $aliyunSms = $this->sms->aliyunSms();
         try{

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 class CodeService
 {
-    protected $sendLimit = 4;
+    protected $sendLimit = 5;
     /**
      * 生成一个随机的六位验证码
      *
@@ -15,17 +15,17 @@ class CodeService
     }
 
     /**
-     * 保存用户验证码
+     * 保存用户验证码并设置过期时间
      *
      * @param String $prefix
      * @param String $codeType
      * @return String
      */
     public function cacheCode(String $prefix, String $codeType):String{
-        $code = (string)$this->getCode();
+        $code = (string)$this->getValidatorCode();
         $key = $prefix.':'.$codeType;
         $hashCode = Hash::make($code);
-        $expiresAt = $this->getSecondExpire(5);
+        $expiresAt = $this->getSecondExpireByMin(5);
         Redis::setex($key, $expiresAt, $hashCode);
         return $code;
     }
@@ -40,43 +40,52 @@ class CodeService
      */
     public function checkCode(String $prefix, String $codeType, String $code):Array{
         $result = [
-            'res' => false,
+            'status' => false,
             'msg' => '验证码已过期'
         ];
 
         $key = $prefix.':'.$codeType;
         if(Redis::get($key)){
-            $res = Hash::check($code, Cache::put($key));
+            $res = Hash::check($code, Redis::get($key));
             if($res){
-                $result["res"] = TRUE;
+                $result["status"] = TRUE;
+                $result['msg'] = "验证码正确";
             }else{
-                $result["验证码错误"];
+                $result["msg"] = "验证码错误";
             }
         }
         return $result;
     }
 
     /**
-     * 设置手机用户发送验证码的次数
+     * 增加发送次数
      *
-     * @param String $prefix
-     * @param String $codeType
-     * @return void
+     * @param String $key
+     * @return Boolean
      */
-    public function sendCodeLimit(String $prefix, String $codeType){
-        $result = FALSE;
-        if($times = Cache::tags($codeType)->has($prefix)){
-            if($times > $this->sendLimit){
-                return TRUE;
+    public function increSendTimes(String $prefix, String $codeType){
+        $key = $prefix.":".$codeType.":sendTime";
+        //判断当前的数量
+       $times =  Redis::get($key);
+       if($times){
+            if($times == $this->sendLimit){
+                //设置过期时间
+                $expiresAt = $this->getSecondExpireByMin(180);
+                Redis::setex($key, $expiresAt, $times);
+
+                //清空验证码
+                $sendKey = $prefix.':'.$codeType;
+                Redis::del($sendKey);
+                return FALSE;
             }
-            Cache::tags($codeType)->increment($prefix, 1);
-            return $result;
-        }
-        Cache::tags($codeType)->put($prefix, 1);
-        return $result;
+            Redis::incrby($key, 1);
+            return TRUE;
+       }
+        Redis::set($key, 1);
+        return TRUE;
     }
 
-    public function getSecondExpire(Int $min){
+    public function getSecondExpireByMin(Int $min):Int{
         $expiresAt = now()->addMinutes(5);
         return $expiresAt->diffInSeconds();
     }

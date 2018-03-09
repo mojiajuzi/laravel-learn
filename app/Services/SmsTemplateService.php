@@ -9,7 +9,7 @@ class SmsTemplateService
         $keyArr =  [
             "vericationCode" => self::VERICATION_CODE
         ];
-        return $aliseKey[$key];
+        return $keyArr[$aliseKey];
     }
 
     public  function getTemplatePlaceholder(String $tempKey):Array{
@@ -29,7 +29,7 @@ class SmsTemplateService
     public function fillTempPlaceholderByDataAndKey(String $aliseKey, Array $data):Array{
         $tempKey = $this->getTemplateKey($aliseKey);
         $tempPlaceData = $this->getTemplatePlaceholder($tempKey);
-        $result = ['statue' => TRUE, 'msg' => '', 'errors' => [], 'data' => []];
+        $result = ['status' => TRUE, 'msg' => '', 'errors' => [], 'data' => []];
         foreach ($tempPlaceData as $k => $v) {
             if($v && (!isset($data[$k]))){
                 $result['status'] = FALSE;
